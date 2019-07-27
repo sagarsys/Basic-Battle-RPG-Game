@@ -43,9 +43,6 @@ class Character:
         if self.mp > self.max_mp:
             self.mp = self.max_mp
 
-    def use_item(self, i):
-        self.inventory[i].quantity -= 1
-
     def get_hp(self):
         return self.hp
 
