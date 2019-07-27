@@ -33,9 +33,11 @@ player_items = [
 ]
 
 # Characters
-player = Character(400, 100, 75, 35, player_spells, player_items)
-enemy = Character(1000, 40, 30, 20, enemy_spells, [])
+player = Character('Geralt', 400, 100, 75, 35, player_spells, player_items)
+enemy = Character('Grunt', 1000, 40, 30, 20, enemy_spells, [])
 
+player.pprint_stats()
+enemy.pprint_stats()
 
 # game status tracker
 running = True

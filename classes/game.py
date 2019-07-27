@@ -1,5 +1,6 @@
 import random
 
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -12,7 +13,8 @@ class bcolors:
 
 
 class Character:
-    def __init__(self, hp, mp, atk, df, mgk, items):
+    def __init__(self, name, hp, mp, atk, df, mgk, items):
+        self.name = name
         self.max_hp = hp
         self.hp = hp
         self.max_mp = mp
@@ -100,3 +102,25 @@ class Character:
 
     def get_stats(self):
         return 'HP ' + str(self.hp) + '/' + str(self.max_hp) + ' MP ' + str(self.mp) + '/' + str(self.max_mp)
+
+    def pprint_stats(self):
+        hp_disp = str(self.hp) + '/' + str(self.max_hp)
+        mp_disp = str(self.mp) + '/' + str(self.max_mp)
+
+        name_offset = 30 - len(self.name) - len(hp_disp)
+        mp_offset = 17 - len(mp_disp)
+
+        name = self.name
+        name += name_offset * ' '
+
+        mp = ''
+        mp += mp_offset * ' '
+        mp += mp_disp
+
+        print('Name                            ____________HP_____________                   _____MP_____')
+        print(
+            name + hp_disp + '  ║'
+            + bcolors.OKGREEN + '█████████████████████████' + bcolors.ENDC + '║'
+            + mp + '  ║'
+            + bcolors.OKBLUE + '███████   ' + bcolors.ENDC + '║'
+        )
