@@ -61,7 +61,7 @@ def battle():
         if __choice == '':
             return False
         try:
-            return int(__choice) - 1
+            return int(__choice)
         except ValueError:
             return False
 
@@ -113,7 +113,7 @@ def battle():
         choice = input_choice('action')
         if not choice:
             continue
-
+        choice -= 1  # avoid zero values to be evaluated to False
         # Attack
         if choice == 0:
             print(bcolors.OKBLUE + 'You chose', player.get_action(choice) + bcolors.ENDC)
@@ -126,6 +126,7 @@ def battle():
             mgk_choice = input_choice('spell')
             if not mgk_choice:
                 continue
+            mgk_choice -= 1
 
             try:
                 spell = player.get_spell(mgk_choice)
@@ -149,7 +150,7 @@ def battle():
             item_choice = input_choice('item')
             if not item_choice:
                 continue
-
+            item_choice -= 1
             try:
                 item = player.get_item(item_choice)
             except IndexError:
