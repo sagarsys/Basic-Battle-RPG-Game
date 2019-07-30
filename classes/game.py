@@ -1,4 +1,5 @@
 import random
+import math
 
 
 class bcolors:
@@ -107,8 +108,11 @@ class Character:
         hp_disp = str(self.hp) + '/' + str(self.max_hp)
         mp_disp = str(self.mp) + '/' + str(self.max_mp)
 
-        name_offset = 30 - len(self.name) - len(hp_disp)
-        mp_offset = 17 - len(mp_disp)
+        max_name_len = 20
+        max_mp_len = 11
+
+        name_offset = max_name_len - len(self.name) - len(hp_disp)
+        mp_offset = max_mp_len - len(mp_disp)
 
         name = self.name
         name += name_offset * ' '
@@ -117,10 +121,56 @@ class Character:
         mp += mp_offset * ' '
         mp += mp_disp
 
-        print('Name                            ____________HP_____________                   _____MP_____')
+        max_hp_spaces = 25
+        max_mp_spaces = 10
+
+        curr_hp_percentile = self.hp / self.max_hp
+        curr_mp_percentile = self.mp / self.max_mp
+
+        num_of_hp_tiles = math.floor(max_hp_spaces * curr_hp_percentile)
+        num_of_mp_tiles = math.floor(max_mp_spaces * curr_mp_percentile)
+        num_of_hp_spaces = max_hp_spaces - num_of_hp_tiles
+        num_of_mp_spaces = max_mp_spaces - num_of_mp_tiles
+
+        __actual_hp = ''
+        __actual_mp = ''
+
+        if num_of_hp_tiles > 0:
+            __actual_hp += '█' * num_of_hp_tiles
+        if num_of_mp_tiles > 0:
+            __actual_mp += '█' * num_of_mp_tiles
+
+        __actual_hp += ' ' * num_of_hp_spaces
+        __actual_mp += ' ' * num_of_mp_spaces
+
+        print('Name                  ____________HP_____________             _____MP_____')
         print(
             name + hp_disp + '  ║'
-            + bcolors.OKGREEN + '█████████████████████████' + bcolors.ENDC + '║'
+            + bcolors.OKGREEN + __actual_hp + bcolors.ENDC + '║'
             + mp + '  ║'
-            + bcolors.OKBLUE + '███████   ' + bcolors.ENDC + '║'
+            + bcolors.OKBLUE + __actual_mp + bcolors.ENDC + '║'
+        )
+
+    def pprint_hp_stats(self):
+        hp_disp = '{}/{}'.format(str(self.hp), str(self.max_hp))
+
+        max_name_len = 20
+
+        name_offset = max_name_len - len(self.name) - len(hp_disp)
+        name = self.name
+        name += name_offset * ' '
+
+        max_hp_spaces = 50
+        curr_hp_percentile = self.hp / self.max_hp
+        num_of_hp_tiles = math.floor(max_hp_spaces * curr_hp_percentile)
+        num_of_spaces = max_hp_spaces - num_of_hp_tiles
+        hp = ''
+        if num_of_hp_tiles > 0:
+            hp += '█' * num_of_hp_tiles
+        hp += ' ' * num_of_spaces
+
+        print('Name                  _________________________HP_________________________')
+        print(
+            name + hp_disp + '  ║'
+            + bcolors.FAIL + hp + bcolors.ENDC + '║'
         )

@@ -37,7 +37,7 @@ player = Character('Geralt', 400, 100, 75, 35, player_spells, player_items)
 enemy = Character('Grunt', 1000, 40, 30, 20, enemy_spells, [])
 
 player.pprint_stats()
-enemy.pprint_stats()
+enemy.pprint_hp_stats()
 
 # game status tracker
 running = True
@@ -51,8 +51,10 @@ def battle():
     # battle status helper
     def print_battle_stats():
         print('------------------STATS------------------')
-        print(bcolors.OKBLUE + 'Player', player.get_stats() + bcolors.ENDC)
-        print(bcolors.WARNING + 'Enemy', enemy.get_stats() + bcolors.ENDC)
+        # print(bcolors.OKBLUE + 'Player', player.get_stats() + bcolors.ENDC)
+        # print(bcolors.WARNING + 'Enemy', enemy.get_stats() + bcolors.ENDC)
+        player.pprint_stats()
+        enemy.pprint_hp_stats()
         print('-----------------------------------------')
 
     # Input choice helper
@@ -199,4 +201,5 @@ def battle():
         print_battle_stats()
 
 
+# init game
 battle()
