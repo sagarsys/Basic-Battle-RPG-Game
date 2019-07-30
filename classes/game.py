@@ -14,7 +14,9 @@ class bcolors:
 
 
 class Character:
-    def __init__(self, name, hp, mp, atk, df, mgk, items):
+    def __init__(self, name, hp, mp, atk, df, mgk, items, targets=None):
+        if targets is None:
+            targets = []
         self.name = name
         self.max_hp = hp
         self.hp = hp
@@ -26,11 +28,13 @@ class Character:
         self.mgk = mgk
         self.inventory = items
         self.actions = ['Attack', 'Magic', 'Items']
+        self.targets = targets
 
     def generate_dmg(self):
         return random.randrange(self.atk_lo, self.atk_hi)
 
     def take_dmg(self, dmg):
+        _actual_dmg = dmg - self.df/10  # To change when stats are implemented
         self.hp -= dmg
         if self.hp < 0:
             self.hp = 0
@@ -79,26 +83,36 @@ class Character:
     def get_action(self, i):
         return self.actions[i]
 
+    def get_target(self, i):
+        return self.targets[i]
+
     def choose_action(self):
         i = 1
-        print(bcolors.HEADER + bcolors.UNDERLINE + 'Actions' + bcolors.ENDC)
+        print(bcolors.HEADER + bcolors.UNDERLINE + 'Actions' + bcolors.ENDC, self.name)
         for item in self.actions:
             print('    ', str(i), item)
             i += 1
 
     def choose_magic(self):
         i = 1
-        print(bcolors.HEADER + bcolors.UNDERLINE + 'Magic' + bcolors.ENDC)
+        print(bcolors.HEADER + bcolors.UNDERLINE + 'Magic' + bcolors.ENDC, self.name)
         for item in self.mgk:
             print('    ', str(i), item.get_name(), '-', str(item.get_mp_cost()))
             i += 1
 
     def choose_items(self):
         i = 1
-        print(bcolors.HEADER + bcolors.UNDERLINE + 'Items' + bcolors.ENDC)
+        print(bcolors.HEADER + bcolors.UNDERLINE + 'Items' + bcolors.ENDC, self.name)
         for items in self.inventory:
             print('    ', str(i), items['item'].name, '-', items['item'].desc,
                   'x ' + bcolors.OKBLUE + bcolors.BOLD + str(items['quantity']) + bcolors.ENDC)
+            i += 1
+
+    def choose_target(self):
+        i = 1
+        print(bcolors.OKBLUE + bcolors.UNDERLINE + 'Enemies' + bcolors.ENDC)
+        for target in self.targets:
+            print('{: <4s} {} {}'.format('', str(i), target.name))
             i += 1
 
     def get_stats(self):
