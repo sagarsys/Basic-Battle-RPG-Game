@@ -150,7 +150,12 @@ def battle():
                 target_choice = 0
             else:
                 target_choice -= 1
-            print(bcolors.OKBLUE + 'You chose', player.get_target(target_choice).name + bcolors.ENDC)
+            try:
+                target = player.get_target(target_choice)
+            except IndexError:
+                target_choice = 0
+                target = player.get_target(target_choice)
+            print(bcolors.OKBLUE + 'You chose', target.name + bcolors.ENDC)
             # Attack
             if choice == 0:
                 print(bcolors.OKBLUE + 'You chose', player.get_action(choice) + bcolors.ENDC)
